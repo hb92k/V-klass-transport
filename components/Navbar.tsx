@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav
       style={{
         display: "flex",
-        alignItems: "center",   // Aligne verticalement l'image avec les liens
+        alignItems: "center",
         gap: "50px",
         fontSize: "20px",
         padding: "10px 40px",
@@ -18,7 +18,7 @@ export default function Navbar() {
       </Link>
 
       <Link href="/">Home</Link>
-      <Link href="/about">Commander mon  Taxi</Link>
+      <Link href="/about">Commander mon Taxi</Link>
       <Link href="/titi">Réserver pour plus tard</Link>
       <Link href="/toto">À propos de nous</Link>
     </nav>
