@@ -18,7 +18,7 @@ export default function Navbar() {
       </Link>
 
       <Link href="/">Home</Link>
-      <Link href="/about">Commander mon Taxi</Link>
+      <Link href="/about">Commander mon  Taxi</Link>
       <Link href="/titi">Réserver pour plus tard</Link>
       <Link href="/toto">À propos de nous</Link>
     </nav>
