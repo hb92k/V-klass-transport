@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { EnvelopeIcon, PhoneIcon, MapIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { MapIcon } from "@heroicons/react/24/outline";
 
 export default function TitiModernBackground() {
   const [firstName, setFirstName] = useState("");
@@ -45,6 +46,7 @@ export default function TitiModernBackground() {
   };
 
   const proposeRoute = () => {
+    // utilisé via le bouton "Proposition d'itinéraire" plus bas
     setOrigin("Nanterre, France");
     setDestination("La Défense, France");
   };
@@ -56,7 +58,10 @@ export default function TitiModernBackground() {
 
   return (
     <div className="flex justify-center items-center mt-8 px-4">
-      <div className="relative max-w-3xl w-full bg-white/40 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/30" ref={containerRef}>
+      <div
+        className="relative max-w-3xl w-full bg-white/40 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/30"
+        ref={containerRef}
+      >
         {/* Bouton en haut à droite + panneau de sélection véhicules */}
         <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
           <div className="relative">
@@ -77,9 +82,7 @@ export default function TitiModernBackground() {
               <div className="absolute right-0 mt-2 w-64 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-slate-200/50 overflow-hidden">
                 <div className="p-3">
                   <h4 className="text-sm font-semibold text-slate-800 mb-2">Choisir un véhicule</h4>
-                  {/* Option simple — pour l'instant une seule voiture (Classe V Mercedes) */}
                   <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50 transition">
-                    {/* Petite icône/illustration */}
                     <div className="flex-shrink-0 w-12 h-8 bg-slate-100 rounded-md flex items-center justify-center text-slate-600 font-semibold">
                       V
                     </div>
@@ -104,8 +107,6 @@ export default function TitiModernBackground() {
                     </div>
                   </div>
 
-                  {/* Si tu veux ajouter d'autres véhicules plus tard, duplique le bloc ci-dessus */}
-
                   <div className="mt-3 text-xs text-slate-500">
                     Sélectionne un véhicule pour continuer. (Actuellement : 1 option)
                   </div>
@@ -122,7 +123,6 @@ export default function TitiModernBackground() {
               Proposez votre itinéraire ou faites une demande via le formulaire.
             </p>
 
-            {/* Affichage du véhicule sélectionné (badge) */}
             {selectedVehicle && (
               <div className="mb-4 inline-flex items-center gap-3 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-800 text-sm">
                 <span className="font-medium">{selectedVehicle.name}</span>
@@ -156,6 +156,7 @@ export default function TitiModernBackground() {
                   required
                 />
               </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -174,56 +175,31 @@ export default function TitiModernBackground() {
                   required
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input type="text" placeholder="Ville" className="input" />
-                <input type="text" placeholder="Code postal" className="input" />
-              </div>
+
               <input type="number" placeholder="Téléphone" className="input" />
               <input type="email" placeholder="Email" className="input" />
-              <textarea
-                placeholder="Message"
-                className="input min-h-[70px] max-h-[160px] resize-y"
-              ></textarea>
-              <button
-                type="submit"
-                className="w-full py-3 flex items-center justify-center text-base font-semibold rounded-lg bg-blue-600/90 hover:bg-blue-700 text-white transition shadow hover:shadow-lg"
-              >
-                <ArrowPathIcon className="w-5 h-5 mr-2 -ml-1 animate-spin-slow" />
-                Commander
-              </button>
+
+              <div className="mt-6 flex gap-3">
+                <button
+                  type="submit"
+                  className="flex-1 flex items-center justify-center text-sm font-medium px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                >
+                  Commander
+                </button>
+
+                {/* utilisation de proposeRoute pour éviter l'avertissement */}
+                <button
+                  type="button"
+                  onClick={proposeRoute}
+                  className="flex-1 flex items-center justify-center text-sm font-medium px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-slate-900 cursor-pointer"
+                >
+                  Proposition d'itinéraire
+                </button>
+              </div>
             </form>
-
-            <button
-              type="button"
-              className="mt-4 w-full py-2 flex items-center justify-center rounded-lg bg-blue-100/60 hover:bg-blue-200 text-blue-700 font-semibold transition"
-              onClick={proposeRoute}
-            >
-              <MapIcon className="w-5 h-5 mr-2" />
-              Proposer Nanterre ↔ La Défense
-            </button>
-          </div>
-
-          <div className="flex flex-col items-start gap-4 mt-8 lg:mt-0 lg:ml-4">
-            <div className="flex items-center gap-2">
-              <EnvelopeIcon className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-medium">vklasstransport@gmail.com</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <PhoneIcon className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-medium">+33 6 05 69 60 23</span>
-            </div>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .input {
-          @apply w-full px-3 py-3 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-blue-500 transition bg-white/60 shadow;
-        }
-        .animate-spin-slow {
-          animation: spin 1.5s linear infinite;
-        }
-      `}</style>
     </div>
   );
 }

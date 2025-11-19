@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { MapIcon, PhoneIcon, EnvelopeIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { MapIcon, PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 
 export default function BookingPanel() {
   const [firstName, setFirstName] = useState("");
@@ -38,11 +38,11 @@ export default function BookingPanel() {
     e.preventDefault();
     setSuccessMessage(null);
     if (!firstName.trim() || !lastName.trim()) {
-      setSuccessMessage("Merci d’indiquer votre nom et prénom.");
+      setSuccessMessage("Merci d\u0027indiquer votre nom et prénom.");
       return;
     }
     if (!phone.trim()) {
-      setSuccessMessage("Merci d’indiquer un numéro de téléphone.");
+      setSuccessMessage("Merci d\u0027indiquer un numéro de téléphone.");
       return;
     }
     if (!departureDate) {
@@ -50,7 +50,7 @@ export default function BookingPanel() {
       return;
     }
     setSubmitting(true);
-    let finalDate = new Date(departureDate);
+    const finalDate = new Date(departureDate);
     if (departureTime) {
       const [hh, mm] = departureTime.split(":").map((v) => parseInt(v, 10) || 0);
       finalDate.setHours(hh, mm, 0, 0);
@@ -82,7 +82,7 @@ export default function BookingPanel() {
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-2xl font-bold text-slate-900 ">Réserver un départ</h3>
-            <p className="text-sm text-slate-700  mt-1">Choisissez la date et l'heure, vos coordonnées et envoyez la demande.</p>
+            <p className="text-sm text-slate-700  mt-1">Choisissez la date et l&apos;heure, vos coordonnées et envoyez la demande.</p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ export default function BookingPanel() {
                     <div className="flex-shrink-0 w-12 h-8 bg-slate-100 rounded-md flex items-center justify-center text-slate-600 font-semibold">V</div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-slate-900">Mercedes Classe V</div>
-                      <div className="text-xs text-slate-600">Spacieux — jusqu'à 7 passagers</div>
+                      <div className="text-xs text-slate-600">Spacieux — jusqu&apos;à 7 passagers</div>
                     </div>
                     <div className="flex items-center">
                       <button
@@ -238,8 +238,6 @@ export default function BookingPanel() {
             </div>
 
             <div className="flex items-center gap-2">
-              
-
               <button
                 type="submit"
                 disabled={submitting}

@@ -1,5 +1,4 @@
-import { Children } from "react"
-
+import React from "react";
 import FormElementInput from "@/components/FormElementInput";
 
 export default function AboutPage() {
@@ -9,5 +8,3 @@ export default function AboutPage() {
     </div>
   );
 }
-
-
