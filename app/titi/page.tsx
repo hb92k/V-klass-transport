@@ -59,7 +59,7 @@ export default function TitiModernBackground() {
   return (
     <div className="flex justify-center items-center mt-8 px-4">
       <div
-        className="relative max-w-3xl w-full bg-white/40 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/30"
+        className="relative max-w-3xl w-full bg-black/40 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/30"
         ref={containerRef}
       >
         {/* Bouton en haut à droite + panneau de sélection véhicules */}
@@ -119,7 +119,7 @@ export default function TitiModernBackground() {
         <div className="flex flex-col lg:flex-row items-center gap-10">
           <div className="flex-1 w-full">
             <h2 className="text-slate-900 text-3xl font-bold mb-1">Contact Vklass-transport</h2>
-            <p className="text-sm text-slate-700 mb-6">
+            <p className="text-sm text-black mb-6">
               Proposez votre itinéraire ou faites une demande via le formulaire.
             </p>
 

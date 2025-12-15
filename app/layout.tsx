@@ -30,13 +30,13 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Image
-          className="dark:invert absolute w-full h-full opacity-10 p-10 -z-10"
-          src="/merco.svg"
-          alt=" "
+          src="/back-2.jpg"
+          alt="background pattern"
           fill
+          style={{ objectFit: "cover", objectPosition: "center" }}
+          className="absolute inset-0 -z-10 pointer-events-none"
           priority
         />
       </body>
     </html>
   );
-}
