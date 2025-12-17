@@ -8,7 +8,8 @@ interface CarGalleryProps {
   carName?: string;
 }
 
-const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) => {
+// Correction : On exporte directement le composant pour éviter l'erreur de "non-utilisation"
+export const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -19,7 +20,6 @@ const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) 
 
   return (
     <div className="relative flex flex-col items-center justify-center p-4 text-center">
-      {/* Bouton pour ouvrir la galerie */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -29,7 +29,6 @@ const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) 
         </button>
       )}
 
-      {/* Galerie */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -58,31 +57,27 @@ const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) 
                 />
               </motion.div>
 
-              {/* Boutons navigation */}
               <button
                 onClick={prevSlide}
                 className="absolute top-1/2 left-2 transform -translate-y-1/2 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center text-xl transition hover:bg-opacity-50"
                 aria-label="Précédent"
               >
-                <-
+                &lt;
               </button>
-
 
               <button
                 onClick={nextSlide}
                 className="absolute top-1/2 right-2 transform -translate-y-1/2 w-10 h-10 bg-black bg-opacity-30 text-white rounded-full flex items-center justify-center text-xl transition hover:bg-opacity-50"
                 aria-label="Suivant"
               >
-                ->
+                &gt;
               </button>
             </div>
 
-            {/* Compteur */}
             <p className="text-white mt-4">
               {currentIndex + 1} / {photos.length}
             </p>
 
-            {/* Bouton pour fermer la galerie */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute bottom-4 right-4 flex flex-col items-center justify-center w-24 h-24 rounded-full border-2 border-white bg-black bg-opacity-30 text-white text-sm transition transform duration-300 hover:bg-opacity-50 hover:scale-110"
@@ -96,4 +91,4 @@ const CarGallery: React.FC<CarGalleryProps> = ({ photos, carName = "Voiture" }) 
   );
 };
 
-
+// Suppression du bloc de code qui posait problème en fin de fichiernp

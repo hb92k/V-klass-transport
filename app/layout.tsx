@@ -37,6 +37,7 @@ export default function RootLayout({
           className="absolute inset-0 -z-10 pointer-events-none"
           priority
         />
-      </body>
-    </html>
-  );
+        </body>
+      </html>
+    );
+  }

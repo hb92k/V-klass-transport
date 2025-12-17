@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: "Configuration serveur incomplète." }, { status: 500 });
+    }
+
     const body = await request.json();
+    // Correction : "vehicle" est maintenant utilisé dans les emails ci-dessous
     const { firstName, lastName, phone, email, origin, destination, departure, vehicle } = body;
 
-    // Validation simple
     if (!firstName || !phone || !departure) {
       return NextResponse.json(
         { error: "Champs manquants (Nom, Téléphone ou Date)" },
@@ -16,72 +20,60 @@ export async function POST(request: Request) {
       );
     }
 
-    // Formatage de la date pour un affichage lisible
     const dateObj = new Date(departure);
     const dateReadable = dateObj.toLocaleDateString("fr-FR", {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit'
     });
 
-    // --- EMAIL 1 : ADMIN (vklasstransport@gmail.com) ---
+    // --- EMAIL 1 : ADMIN ---
     const sendToAdmin = resend.emails.send({
-      from: "Réservation Web <onboarding@resend.dev>", // Remplace par ton domaine vérifié (ex: contact@vklass.com)
+      from: "Réservation Web <onboarding@resend.dev>",
       to: ["vklasstransport@gmail.com"],
       subject: `🚖 Nouvelle Course : ${firstName} ${lastName}`,
       html: `
         <div style="font-family: sans-serif; color: #333;">
           <h1>Nouvelle demande de réservation</h1>
-          <p>Un client vient de passer commande sur le site.</p>
           <hr />
-          <h3>👤 Client</h3>
-          <ul>
-            <li><strong>Nom :</strong> ${firstName} ${lastName}</li>
-            <li><strong>Téléphone :</strong> <a href="tel:${phone}">${phone}</a></li>
-            <li><strong>Email :</strong> ${email || "Non renseigné"}</li>
-          </ul>
-          <h3>📍 Trajet</h3>
-          <ul>
-            <li><strong>De :</strong> ${origin}</li>
-            <li><strong>À :</strong> ${destination}</li>
-            <li><strong>Date :</strong> ${dateReadable}</li>
-            <li><strong>Véhicule :</strong> ${vehicle ? vehicle.name : "Non spécifié"}</li>
-          </ul>
+          <p><strong>Nom :</strong> ${firstName} ${lastName}</p>
+          <p><strong>Téléphone :</strong> ${phone}</p>
+          <p><strong>Trajet :</strong> De ${origin} à ${destination}</p>
+          <p><strong>Date :</strong> ${dateReadable}</p>
+          <p><strong>Véhicule :</strong> ${vehicle?.name || "Non spécifié"}</p>
         </div>
       `,
     });
 
-    // --- EMAIL 2 : CLIENT (Confirmation) ---
-    // On ne l'envoie que si le client a mis son email
-    let sendToClient = Promise.resolve(null); 
+    // --- EMAIL 2 : CLIENT ---
+    // Correction : Utilisation d'un type plus large que "any" pour satisfaire ESLint
+    let sendToClient: Promise<unknown> = Promise.resolve(null); 
     
     if (email) {
       sendToClient = resend.emails.send({
-        from: "V-Klass Transport <onboarding@resend.dev>", // Remplace par ton domaine vérifié
+        from: "V-Klass Transport <onboarding@resend.dev>",
         to: [email],
         subject: `Confirmation de votre demande de transport`,
         html: `
           <div style="font-family: sans-serif; color: #333;">
             <h2>Merci ${firstName}, votre demande est bien reçue !</h2>
-            <p>Nous avons bien pris en compte votre demande de transport. Notre équipe va traiter votre réservation et vous recontactera très rapidement par téléphone pour valider les détails.</p>
-            
-            <div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="margin-top:0;">Récapitulatif :</h3>
-              <p><strong>Départ :</strong> ${origin}</p>
-              <p><strong>Arrivée :</strong> ${destination}</p>
-              <p><strong>Date :</strong> ${dateReadable}</p>
-              <p><strong>Véhicule souhaité :</strong> ${vehicle ? vehicle.name : "Standard"}</p>
-            </div>
-
+            <p><strong>Départ :</strong> ${origin}</p>
+            <p><strong>Arrivée :</strong> ${destination}</p>
+            <p><strong>Date :</strong> ${dateReadable}</p>
+            <p><strong>Véhicule :</strong> ${vehicle?.name || "Standard"}</p>
             <p>À très vite,<br/>L'équipe V-Klass Transport</p>
           </div>
         `,
       });
     }
 
-    // On attend que les deux emails partent
     await Promise.all([sendToAdmin, sendToClient]);
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Erreur d'envoi d'email:", error);
     return NextResponse.json({ error: "Erreur serveur lors de l'envoi." }, { status: 500 });
   }

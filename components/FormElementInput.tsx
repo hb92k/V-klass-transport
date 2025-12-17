@@ -40,7 +40,6 @@ export default function FormElementInput() {
     e.preventDefault();
     setSuccessMessage(null);
 
-    // Validation simple côté client
     if (!firstName.trim() || !lastName.trim()) {
       setSuccessMessage("Merci d'indiquer votre nom et prénom.");
       return;
@@ -86,7 +85,6 @@ export default function FormElementInput() {
 
       if (res.ok) {
         setSuccessMessage("Demande reçue ! Un email de confirmation vous a été envoyé.");
-        // Optionnel : Tu peux vider le formulaire ici si tu veux
       } else {
         const errorData = await res.json();
         setSuccessMessage(`Erreur : ${errorData.error || "Problème lors de l'envoi."}`);
@@ -114,7 +112,6 @@ export default function FormElementInput() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Bouton Date */}
             <div className="relative" ref={calendarRef}>
               <button
                 type="button"
@@ -146,7 +143,6 @@ export default function FormElementInput() {
               )}
             </div>
 
-            {/* Bouton Véhicule */}
             <div className="relative" ref={vehiclesRef}>
               <button
                 type="button"
@@ -163,7 +159,8 @@ export default function FormElementInput() {
                     <div className="flex-shrink-0 w-12 h-8 bg-slate-200 rounded-md flex items-center justify-center text-slate-600 font-bold text-xs">VAN</div>
                     <div className="flex-1">
                       <div className="text-sm font-medium text-slate-900">Mercedes Classe V</div>
-                      <div className="text-xs text-slate-500">Spacieux — jusqu'à 7 passagers</div>
+                      {/* LIGNE CORRIGÉE CI-DESSOUS */}
+                      <div className="text-xs text-slate-500">Spacieux — jusqu&apos;à 7 passagers</div>
                     </div>
                   </div>
                 </div>
@@ -180,7 +177,7 @@ export default function FormElementInput() {
               onClick={() => setSelectedVehicle(null)}
               className="ml-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-800 hover:bg-blue-700 transition text-xs"
             >
-              ✕
+              &times;
             </button>
           </div>
         )}
@@ -242,7 +239,7 @@ export default function FormElementInput() {
             />
             <input
               type="text"
-              placeholder="Adresse d'arrivée"
+              placeholder="Adresse d&apos;arrivée"
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               className="px-3 py-2 rounded-md border border-white/20 bg-black/40 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
