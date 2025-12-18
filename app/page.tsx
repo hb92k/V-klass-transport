@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import IntroSlide from "../components/IntroSlide";
 
 export default function MercedesV220d3D() {
   const [open, setOpen] = useState(false);
@@ -12,7 +13,10 @@ export default function MercedesV220d3D() {
   const next = () => setIndex((i) => (i === images.length - 1 ? 0 : i + 1));
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-4xl mb-8">
+        <IntroSlide />
+      </div>
       {!open ? (
         <button
           onClick={() => setOpen(true)}
