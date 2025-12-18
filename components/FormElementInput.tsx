@@ -77,7 +77,7 @@ export default function FormElementInput() {
     };
 
     try {
-      const res = await fetch("/api/send-booking", {
+      const res = await fetch("/api/form-submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
